@@ -47,6 +47,7 @@
 
 <script>
 import { ref, computed } from "vue";
+import axios from "axios";
 
 export default {
   setup() {
@@ -54,7 +55,7 @@ export default {
     const loading = ref(false);
     const result = ref(null);
 
-    //Validate URL
+    // Validate URL
     const isValidUrl = computed(() => {
       const urlPattern = new RegExp(
         "^(https?:\\/\\/)" + // validate protocol
@@ -71,28 +72,28 @@ export default {
     const invokeScreenshot = async () => {
       loading.value = true;
       result.value = null;
-      console.log("test");
-      try {
-        // Step 1: Send POST request to initiate screenshot process
-        const response = await fetch(
-          "https://6cc76a62pb.execute-api.ap-southeast-1.amazonaws.com/dev/screenshot",
-          {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ url: url.value }),
-          }
-        );
-        const data = await response.json();
 
-        // Step 2: Use the received ID to request the result
-        const resultResponse = await fetch(
-          `https://6cc76a62pb.execute-api.ap-southeast-1.amazonaws.com/dev/screenshot/download/${data.id}`
+      console.log("URL to be sent:", url.value); // Check if URL is correctly captured
+
+      try {
+        const response = await axios.post(
+          "https://6cc76a62pb.execute-api.ap-southeast-1.amazonaws.com/dev/screenshot",
+          { url: url.value }
         );
-        result.value = await resultResponse.json();
+
+        const id = JSON.parse(response.data.body);
+
+        const resultResponse = await axios.post(
+          "https://6cc76a62pb.execute-api.ap-southeast-1.amazonaws.com/dev/screenshot/reports",
+          { id: id }
+        );
+
+        console.log("POST Response:", resultResponse.data);
+        result.value = resultResponse.data;
       } catch (error) {
         console.error("Error:", error);
-      } finally {
         loading.value = false;
+        // Handle specific error cases here
       }
     };
 
