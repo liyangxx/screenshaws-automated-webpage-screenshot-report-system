@@ -27,19 +27,6 @@
           </button>
         </form>
         <div v-if="loading" class="mt-4 text-lg text-white">Processing...</div>
-        <div v-if="result" class="mt-4 text-center">
-          <img
-            :src="result.screenshotUrl"
-            alt="Screenshot"
-            class="w-full h-auto max-w-xs mx-auto"
-          />
-          <a
-            :href="result.pdfUrl"
-            target="_blank"
-            class="block mt-4 text-blue-500 hover:underline"
-            >Download PDF</a
-          >
-        </div>
       </div>
     </div>
   </div>
@@ -48,12 +35,13 @@
 <script>
 import { ref, computed } from "vue";
 import axios from "axios";
+import { useRouter } from "vue-router";
 
 export default {
   setup() {
     const url = ref("");
     const loading = ref(false);
-    const result = ref(null);
+    const router = useRouter();
 
     // Validate URL
     const isValidUrl = computed(() => {
@@ -71,7 +59,6 @@ export default {
 
     const invokeScreenshot = async () => {
       loading.value = true;
-      result.value = null;
 
       console.log("URL to be sent:", url.value); // Check if URL is correctly captured
 
@@ -81,15 +68,15 @@ export default {
           { url: url.value }
         );
 
-        const id = JSON.parse(response.data.body);
+        // Parse the response to extract the ID
+        const { id } = JSON.parse(response.data.body);
+        console.log("POST response.data:", response.data);
+        console.log("Parsed id = ", id);
 
-        const resultResponse = await axios.post(
-          "https://6cc76a62pb.execute-api.ap-southeast-1.amazonaws.com/dev/screenshot/reports",
-          { id: id }
-        );
+        loading.value = false;
 
-        console.log("POST Response:", resultResponse.data);
-        result.value = resultResponse.data;
+        router.push({ name: 'ViewReport', params: { id: id } });
+
       } catch (error) {
         console.error("Error:", error);
         loading.value = false;
@@ -100,7 +87,6 @@ export default {
     return {
       url,
       loading,
-      result,
       invokeScreenshot,
       isValidUrl,
     };

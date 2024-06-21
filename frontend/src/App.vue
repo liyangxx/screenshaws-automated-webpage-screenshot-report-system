@@ -1,16 +1,15 @@
 <template>
   <div id="app">
-    <ScreenshotForm />
+    <router-view />
   </div>
 </template>
 
 <script>
-import ScreenshotForm from './components/ScreenshotForm.vue';
-
 export default {
   name: 'App',
-  components: {
-    ScreenshotForm
-  }
 };
 </script>
+
+<style>
+/* Add any global styles here */
+</style>
