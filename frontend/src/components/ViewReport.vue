@@ -10,8 +10,8 @@
     </header>
     <div class="flex-grow flex items-center justify-center">
       <div class="w-full max-w-sm">
-        <h2 class="text-2xl font-bold text-white text-center">Your report is ready!</h2>
-        <div v-if="loading" class="mt-4 text-lg text-white">Processing...</div>
+        <h2 v-if="finalUrl" class="text-2xl font-bold text-white text-center">Your report is ready!</h2>
+        <div v-if="loading" class="mt-4 text-lg text-center text-white">Processing...</div>
         <div v-if="finalUrl" class="mt-4 text-center">
           <button
             @click="redirectToReport"
@@ -64,15 +64,15 @@ export default {
 
     const redirectToReport = async () => {
       window.open(finalUrl.value, "_blank");
-      // try {
+      //  try {
       //   // Try to access the URL to ensure it's available
-      //   await axios.head(finalUrl.value);
-      //   window.open(finalUrl.value, "_blank");
-      // } catch (error) {
-      //   console.error("URL not accessible yet, retrying...");
-      //   // Retry after a short delay
-      //   setTimeout(redirectToReport, 2000);
-      // }
+      //    await axios.head(finalUrl.value);
+      //    window.open(finalUrl.value, "_blank");
+      //  } catch (error) {
+      //    console.error("URL not accessible yet, retrying...");
+      //    // Retry after a short delay
+      //    setTimeout(redirectToReport, 2000);
+      //  }
     };
 
     onMounted(() => {

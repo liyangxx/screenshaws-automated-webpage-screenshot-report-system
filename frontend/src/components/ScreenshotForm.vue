@@ -10,7 +10,7 @@
     </header>
     <div class="flex-grow flex items-center justify-center">
       <div class="w-full max-w-sm">
-        <form @submit.prevent="invokeScreenshot" class="w-full">
+        <form v-if="!loading" @submit.prevent="invokeScreenshot" class="w-full">
           <input
             v-model="url"
             type="text"
@@ -26,7 +26,7 @@
             Capture Screenshot
           </button>
         </form>
-        <div v-if="loading" class="mt-4 text-lg text-white">Processing...</div>
+        <div v-if="loading" class="mt-4 text-lg text-center text-white">Processing...</div>
       </div>
     </div>
   </div>
