@@ -4,18 +4,23 @@
       class="flex w-full justify-center items-center py-6 bg-gray-800 text-white"
     >
       <img src="@/assets/logo.png" alt="Logo" class="h-10 ml-4 mr-4" />
-      <h1 class="text-2xl font-bold">
-        Automated Web Screenshot and Report Generator
-      </h1>
+      <h1 class="text-2xl font-bold">ScreenShaws</h1>
     </header>
     <div class="flex-grow flex items-center justify-center">
-      <div class="w-full max-w-sm">
-        <h2 v-if="reportUrl" class="text-2xl font-bold text-white text-center -mt-24">Your report is ready!</h2>
-        <div v-if="loading" class="mt-4 text-lg text-center text-white">Processing...</div>
-        <div v-if="reportUrl" class="mt-4 text-center">
+      <div class="w-full max-w-sm mb-24">
+        <div v-if="!reportUrl" class="text-lg text-center text-white">
+          Processing...
+        </div>
+        <h2
+          v-if="reportUrl && !loading"
+          class="text-2xl font-bold text-white text-center"
+        >
+          Your report is ready!
+        </h2>
+        <div v-if="reportUrl && !loading" class="text-center">
           <button
             @click="redirectToReport"
-            class="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 mt-5"
+            class="w-2/3 bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 mt-5"
           >
             View Report
           </button>
@@ -32,14 +37,24 @@ import { useRoute } from "vue-router";
 
 export default {
   setup() {
-    const loading = ref(false);
+    const loading = ref(true); // Initially set to true
     const reportUrl = ref(null);
+    const error = ref(null);
     const route = useRoute();
     const id = route.params.id;
+    const maxRetries = 5;
+    const retryDelay = 5000; // 5 seconds
 
-    const fetchReport = async () => {
-      loading.value = true;
+    const checkUrlAccessible = async (url) => {
+      try {
+        const response = await axios.get(url);
+        return response.status === 200;
+      } catch (error) {
+        return false;
+      }
+    };
 
+    const fetchReport = async (retries = 0) => {
       try {
         const response = await axios.post(
           "https://6cc76a62pb.execute-api.ap-southeast-1.amazonaws.com/dev/screenshot/reports",
@@ -48,11 +63,20 @@ export default {
 
         const parsedBody = JSON.parse(response.data.body);
         console.log("parsedBody = ", parsedBody);
-        
-        reportUrl.value = parsedBody.pdfUrl;
-        console.log("PDF URL Value = ", reportUrl.value);
-        
-        loading.value = false;
+
+        if (parsedBody.pdfUrl) {
+          const pdfAccessible = await checkUrlAccessible(parsedBody.pdfUrl);
+          if (pdfAccessible) {
+            reportUrl.value = parsedBody.pdfUrl;
+            console.log("PDF URL Value = ", reportUrl.value);
+            loading.value = false;
+          } else if (retries < maxRetries) {
+            setTimeout(() => fetchReport(retries + 1), retryDelay);
+          } else {
+            error.value = "Failed to load the report. Please try again later.";
+            loading.value = false;
+          }
+        }
       } catch (error) {
         console.error("Error:", error);
         loading.value = false;

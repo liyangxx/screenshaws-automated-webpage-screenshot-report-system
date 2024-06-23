@@ -4,9 +4,7 @@
       class="flex w-full justify-center items-center py-6 bg-gray-800 text-white"
     >
       <img src="@/assets/logo.png" alt="Logo" class="h-10 ml-4 mr-4" />
-      <h1 class="text-2xl font-bold">
-        Automated Web Screenshot and Report Generator
-      </h1>
+      <h1 class="text-2xl font-bold">ScreenShaws</h1>
     </header>
     <div class="flex-grow flex items-center justify-center">
       <div class="w-full max-w-sm">
@@ -26,7 +24,9 @@
             Capture Screenshot
           </button>
         </form>
-        <div v-if="loading" class="mt-4 text-lg text-center text-white">Processing...</div>
+        <div v-if="loading" class="mt-4 text-lg text-center text-white mb-10">
+          Processing...
+        </div>
       </div>
     </div>
   </div>
@@ -75,8 +75,7 @@ export default {
 
         loading.value = false;
 
-        router.push({ name: 'ViewScreenshot', params: { id: id } });
-
+        router.push({ name: "ViewScreenshot", params: { id: id } });
       } catch (error) {
         console.error("Error:", error);
         loading.value = false;
