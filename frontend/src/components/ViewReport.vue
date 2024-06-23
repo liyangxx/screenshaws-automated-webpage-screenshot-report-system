@@ -10,9 +10,9 @@
     </header>
     <div class="flex-grow flex items-center justify-center">
       <div class="w-full max-w-sm">
-        <h2 v-if="finalUrl" class="text-2xl font-bold text-white text-center">Your report is ready!</h2>
+        <h2 v-if="reportUrl" class="text-2xl font-bold text-white text-center">Your report is ready!</h2>
         <div v-if="loading" class="mt-4 text-lg text-center text-white">Processing...</div>
-        <div v-if="finalUrl" class="mt-4 text-center">
+        <div v-if="reportUrl" class="mt-4 text-center">
           <button
             @click="redirectToReport"
             class="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600"
@@ -33,7 +33,7 @@ import { useRoute } from "vue-router";
 export default {
   setup() {
     const loading = ref(false);
-    const finalUrl = ref(null);
+    const reportUrl = ref(null);
     const route = useRoute();
     const id = route.params.id;
 
@@ -46,14 +46,12 @@ export default {
           { id: id }
         );
 
-        console.log("POST response.data:", response.data);
-
         const parsedBody = JSON.parse(response.data.body);
-        console.log("Parsed Body = ", parsedBody.pdfUrl);
-
-        finalUrl.value = parsedBody.pdfUrl;
-        console.log("Final Url value = ", finalUrl.value);
-
+        console.log("parsedBody = ", parsedBody);
+        
+        reportUrl.value = parsedBody.pdfUrl;
+        console.log("PDF URL Value = ", reportUrl.value);
+        
         loading.value = false;
       } catch (error) {
         console.error("Error:", error);
@@ -63,16 +61,7 @@ export default {
     };
 
     const redirectToReport = async () => {
-      window.open(finalUrl.value, "_blank");
-      //  try {
-      //   // Try to access the URL to ensure it's available
-      //    await axios.head(finalUrl.value);
-      //    window.open(finalUrl.value, "_blank");
-      //  } catch (error) {
-      //    console.error("URL not accessible yet, retrying...");
-      //    // Retry after a short delay
-      //    setTimeout(redirectToReport, 2000);
-      //  }
+      window.open(reportUrl.value, "_blank");
     };
 
     onMounted(() => {
@@ -82,7 +71,7 @@ export default {
     return {
       loading,
       redirectToReport,
-      finalUrl,
+      reportUrl,
     };
   },
 };

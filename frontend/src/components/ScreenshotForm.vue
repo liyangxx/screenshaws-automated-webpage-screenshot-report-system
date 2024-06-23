@@ -75,7 +75,7 @@ export default {
 
         loading.value = false;
 
-        router.push({ name: 'ViewReport', params: { id: id } });
+        router.push({ name: 'ViewScreenshot', params: { id: id } });
 
       } catch (error) {
         console.error("Error:", error);
