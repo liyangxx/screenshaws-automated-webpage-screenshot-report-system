@@ -10,12 +10,12 @@
     </header>
     <div class="flex-grow flex items-center justify-center">
       <div class="w-full max-w-sm">
-        <h2 v-if="reportUrl" class="text-2xl font-bold text-white text-center">Your report is ready!</h2>
+        <h2 v-if="reportUrl" class="text-2xl font-bold text-white text-center -mt-24">Your report is ready!</h2>
         <div v-if="loading" class="mt-4 text-lg text-center text-white">Processing...</div>
         <div v-if="reportUrl" class="mt-4 text-center">
           <button
             @click="redirectToReport"
-            class="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600"
+            class="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 mt-5"
           >
             View Report
           </button>

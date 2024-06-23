@@ -9,19 +9,19 @@
         </h1>
       </header>
       <div class="flex-grow flex flex-col items-center justify-center">
-        <div class="w-full max-w-2xl">
-          <h2 class="text-2xl font-bold text-white text-center">Screenshot Preview</h2>
+        <div class="w-full max-w-2xl flex flex-col items-center justify-center">
+          <h2 class="text-2xl font-bold text-white text-center mt-10 mb-5">Screenshot Preview</h2>
           <div v-if="loading" class="mt-4 text-lg text-center text-white">Loading screenshot...</div>
-          <div v-if="screenshotUrl" class="mt-4">
-            <img :src="screenshotUrl" alt="Screenshot" class="w-full" />
+          <div v-if="screenshotUrl" class="mt-4 items-center justify-center">
+            <img :src="screenshotUrl" alt="Screenshot Image" class="w-full rounded-2xl" />
           </div>
-          <div v-if="!loading && !screenshotUrl" class="mt-4 text-lg text-center text-white">
-            Screenshot not available
+          <div v-if="!loading && !screenshotUrl" class="mt-4 text-lg text-center text-white items-center justify-center">
+            Please refresh and try again is screenshot preview is not displayed
           </div>
           <button
             v-if="screenshotUrl"
-            @click="generateReport"
-            class="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 mt-4"
+            @click="generateScreenshotPreview"
+            class="w-1/2 items-center justify-center bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 mt-10 mb-20"
           >
             Generate Report
           </button>
@@ -66,7 +66,7 @@
         }
       };
   
-      const generateReport = () => {
+      const generateScreenshotPreview = () => {
         router.push({ name: 'ViewReport', params: { id: id } });
       };
   
@@ -77,7 +77,7 @@
       return {
         loading,
         screenshotUrl,
-        generateReport,
+        generateScreenshotPreview,
       };
     },
   };
@@ -86,4 +86,3 @@
   <style scoped>
   /* Additional component-specific styles can go here */
   </style>
-  
