@@ -6,13 +6,27 @@
       <img src="@/assets/logo.png" alt="Logo" class="h-10 ml-4 mr-4" />
       <h1 class="text-2xl font-bold">ScreenShaws</h1>
     </header>
-    <div class="flex-grow flex items-center justify-center">
-      <div class="w-full max-w-sm">
-        <form v-if="!loading" @submit.prevent="invokeScreenshot" class="w-full">
+    <div
+      class="flex-grow flex-col flex items-center justify-center"
+    >
+      <h2 class="text-2xl font-bold text-white text-center ">
+        Automated Webpage Screenshot & Report Generation
+      </h2>
+      <h3 class="text-md font-regular text-white text-center mt-3 mb-3">
+        Enter your link and it's done in a blink.
+      </h3>
+      <div
+        class="flex flex-col w-full max-w-xl h-36 items-center justify-center"
+      >
+        <form
+          v-if="!loading"
+          @submit.prevent="invokeScreenshot"
+          class="w-4/5 items-center justify-center"
+        >
           <input
             v-model="url"
             type="text"
-            placeholder="Enter a valid URL"
+            placeholder="https://..."
             required
             class="w-full p-2 mb-4 border rounded-lg"
           />

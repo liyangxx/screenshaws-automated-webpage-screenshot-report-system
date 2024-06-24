@@ -7,10 +7,10 @@
       <h1 class="text-2xl font-bold">ScreenShaws</h1>
     </header>
     <div class="flex-grow flex flex-col items-center justify-center">
-      <div class="w-full max-w-2xl flex flex-col items-center justify-center">
+      <div class="w-full max-w-3xl flex flex-col items-center justify-center">
         <h2
           v-if="screenshotUrl"
-          class="text-2xl font-bold text-white text-center mt-10 mb-5"
+          class="text-2xl font-semibold text-white text-center mt-8 mb-5"
         >
           Screenshot Preview
         </h2>
@@ -38,7 +38,7 @@
         <button
           v-if="screenshotUrl && !loading"
           @click="generateScreenshotPreview"
-          class="w-5/12 items-center justify-center bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 mt-10 mb-16"
+          class="w-5/12 items-center justify-center bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 mt-10 mb-12"
         >
           Generate Report
         </button>
@@ -82,6 +82,7 @@ export default {
 
         const parsedBody = JSON.parse(response.data.body);
         console.log("parsedBody = ", parsedBody);
+        console.log("Parsed Body.Screenshot URL = ", parsedBody.screenshotUrl);
 
         if (parsedBody.screenshotUrl) {
           const screenshotAccessible = await checkUrlAccessible(

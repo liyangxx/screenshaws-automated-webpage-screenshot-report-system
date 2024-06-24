@@ -13,7 +13,7 @@
         </div>
         <h2
           v-if="reportUrl && !loading"
-          class="text-2xl font-bold text-white text-center"
+          class="text-2xl font-semibold text-white text-center"
         >
           Your report is ready!
         </h2>
@@ -24,6 +24,13 @@
           >
             View Report
           </button>
+          <button
+            v-if="viewedReport"
+            @click="redirectToHome"
+            class="w-2/3 bg-green-500 text-white py-2 rounded-lg hover:bg-green-600 mt-5"
+          >
+            Try Another URL
+          </button>
         </div>
       </div>
     </div>
@@ -33,14 +40,16 @@
 <script>
 import { ref, onMounted } from "vue";
 import axios from "axios";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 
 export default {
   setup() {
     const loading = ref(true); // Initially set to true
     const reportUrl = ref(null);
     const error = ref(null);
+    const viewedReport = ref(false);
     const route = useRoute();
+    const router = useRouter();
     const id = route.params.id;
     const maxRetries = 5;
     const retryDelay = 5000; // 5 seconds
@@ -86,8 +95,13 @@ export default {
 
     const redirectToReport = async () => {
       window.open(reportUrl.value, "_blank");
+      viewedReport.value = true;
     };
 
+    const redirectToHome = () => {
+      router.push({ name: "ScreenshotForm" });
+    };
+    
     onMounted(() => {
       fetchReport();
     });
@@ -96,6 +110,8 @@ export default {
       loading,
       redirectToReport,
       reportUrl,
+      viewedReport,
+      redirectToHome,
     };
   },
 };
