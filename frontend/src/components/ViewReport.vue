@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col min-h-screen bg-gray-700">
+  <div class="flex flex-col min-h-screen bg-cover bg-center">
     <header
       class="flex w-full justify-center items-center py-6 bg-gray-800 text-white"
     >
@@ -20,14 +20,14 @@
         <div v-if="reportUrl && !loading" class="text-center">
           <button
             @click="redirectToReport"
-            class="w-2/3 bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 mt-5"
+            class="w-2/3 bg-blue-500 font-bold text-white py-2 rounded-lg hover:bg-blue-600 mt-10"
           >
             View Report
           </button>
           <button
             v-if="viewedReport"
             @click="redirectToHome"
-            class="w-2/3 bg-green-500 text-white py-2 rounded-lg hover:bg-green-600 mt-5"
+            class="w-2/3 bg-orange-500 font-bold text-white py-2 rounded-lg hover:bg-orange-600 mt-6"
           >
             Try Another URL
           </button>
@@ -89,7 +89,7 @@ export default {
       } catch (error) {
         console.error("Error:", error);
         loading.value = false;
-        // Handle specific error cases here
+        error.value = "Failed to load the report. Please try again later.";
       }
     };
 
@@ -101,7 +101,7 @@ export default {
     const redirectToHome = () => {
       router.push({ name: "ScreenshotForm" });
     };
-    
+
     onMounted(() => {
       fetchReport();
     });
@@ -112,11 +112,20 @@ export default {
       reportUrl,
       viewedReport,
       redirectToHome,
+      error,
     };
   },
 };
 </script>
 
 <style scoped>
-/* Additional component-specific styles can go here */
+.bg-cover {
+  background-image: url("@/assets/background5.jpg");
+  background-size: cover;
+  background-position: center;
+}
+
+.bg-opacity-75 {
+  background-color: rgba(0, 0, 0, 0.75);
+}
 </style>

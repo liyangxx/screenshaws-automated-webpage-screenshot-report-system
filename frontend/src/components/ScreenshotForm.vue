@@ -1,18 +1,19 @@
 <template>
-  <div class="flex flex-col min-h-screen bg-gray-700">
+  <div class="flex flex-col min-h-screen bg-cover bg-center">
     <header
       class="flex w-full justify-center items-center py-6 bg-gray-800 text-white"
     >
       <img src="@/assets/logo.png" alt="Logo" class="h-10 ml-4 mr-4" />
       <h1 class="text-2xl font-bold">ScreenShaws</h1>
     </header>
-    <div
-      class="flex-grow flex-col flex items-center justify-center"
-    >
-      <h2 class="text-2xl font-bold text-white text-center ">
+    <div class="flex-grow flex-col flex items-center justify-center">
+      <h2 v-if="!loading" class="w-5/6 text-2xl font-bold text-white text-center">
         Automated Webpage Screenshot & Report Generation
       </h2>
-      <h3 class="text-md font-regular text-white text-center mt-3 mb-3">
+      <h3
+        v-if="!loading"
+        class="text-md font-regular text-white text-center mt-3 mb-3"
+      >
         Enter your link and it's done in a blink.
       </h3>
       <div
@@ -33,12 +34,12 @@
           <button
             type="submit"
             :disabled="!isValidUrl"
-            class="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed"
+            class="w-full bg-blue-500 font-bold text-white py-2 rounded-lg hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             Capture Screenshot
           </button>
         </form>
-        <div v-if="loading" class="mt-4 text-lg text-center text-white mb-10">
+        <div v-if="loading" class="text-lg text-center text-white mb-10">
           Processing...
         </div>
       </div>
@@ -108,5 +109,13 @@ export default {
 </script>
 
 <style scoped>
-/* Additional component-specific styles can go here */
+.bg-cover {
+  background-image: url("@/assets/background5.jpg");
+  background-size: cover;
+  background-position: center;
+}
+
+.bg-opacity-75 {
+  background-color: rgba(0, 0, 0, 0.75);
+}
 </style>

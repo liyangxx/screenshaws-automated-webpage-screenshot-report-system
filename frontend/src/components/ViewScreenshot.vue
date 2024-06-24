@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col min-h-screen bg-gray-700">
+  <div class="flex flex-col min-h-screen bg-cover bg-center">
     <header
       class="flex w-full justify-center items-center py-6 bg-gray-800 text-white"
     >
@@ -25,7 +25,7 @@
             :src="screenshotUrl"
             @load="onImageLoad"
             @error="onImageError"
-            alt="Try refreshing the page if the screenshot is not displayed"
+            alt="The website might have restrictions or is unavailable at the moment. Please try again later."
             class="w-full rounded-2xl"
           />
         </div>
@@ -38,7 +38,7 @@
         <button
           v-if="screenshotUrl && !loading"
           @click="generateScreenshotPreview"
-          class="w-5/12 items-center justify-center bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 mt-10 mb-12"
+          class="w-5/12 items-center justify-center font-bold bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 mt-10 mb-12"
         >
           Generate Report
         </button>
@@ -104,7 +104,8 @@ export default {
         }
       } catch (error) {
         console.error("Error:", error);
-        error.value = "Failed to load the screenshot. Please try again later.";
+        error.value =
+          "The website might have restrictions or is unavailable at the moment. Please try again later.";
       } finally {
         loading.value = false;
       }
@@ -119,7 +120,8 @@ export default {
     };
 
     const onImageError = () => {
-      error.value = "Failed to load the screenshot image.";
+      error.value =
+        "The website might have restrictions or is unavailable at the moment. Please try again later.";
       loading.value = false;
     };
 
@@ -141,5 +143,13 @@ export default {
 </script>
 
 <style scoped>
-/* Additional component-specific styles can go here */
+.bg-cover {
+  background-image: url("@/assets/background5.jpg");
+  background-size: cover;
+  background-position: center;
+}
+
+.bg-opacity-75 {
+  background-color: rgba(0, 0, 0, 0.75);
+}
 </style>
