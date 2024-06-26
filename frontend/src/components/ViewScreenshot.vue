@@ -25,15 +25,15 @@
             :src="screenshotUrl"
             @load="onImageLoad"
             @error="onImageError"
-            alt="The website might have restrictions or is unavailable at the moment. Please try again later."
+            alt="The website might have restrictions or is unavailable at the moment. Try refreshing the page."
             class="w-full rounded-2xl"
           />
         </div>
         <div v-if="error" class="mt-4 text-lg text-center text-red-500">
-          {{ error }}
+          Try refreshing the page
         </div>
         <div v-if="message" class="mt-4 text-lg text-center text-yellow-500">
-          {{ message }}
+          Try refreshing the page
         </div>
         <button
           v-if="screenshotUrl && !loading"
